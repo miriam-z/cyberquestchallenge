@@ -9,12 +9,15 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-# Create a writable directory for the application
-# RUN mkdir -p /app/.files
-# RUN chown -R user:user /app/.files
-# RUN chmod 750 /app/.files/
-
 COPY --chown=user . $HOME/app
+
+# Create a writable directory for the application
+RUN mkdir -p $HOME/app/.files
+
+RUN chown -R user:user $HOME/app/.files
+
+RUN chmod 750 $HOME/app/.files/
+
 
 COPY ./requirements.txt ~/app/requirements.txt
 
@@ -26,3 +29,6 @@ COPY . .
 EXPOSE 7860
 
 CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "7860"]
+
+# OSError: [Errno 30] Read-only file system: '/home/user/app/.files'
+
