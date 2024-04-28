@@ -2,7 +2,7 @@ FROM python:3.12
 
 RUN useradd -m -u 15000 user
 
-USER user
+USER 15000
 
 COPY app.py app.py
 
