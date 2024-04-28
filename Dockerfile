@@ -14,7 +14,7 @@ WORKDIR /app
 # Create a writable directory for the application
 RUN mkdir -p /app/.files
 RUN chown -R user:user /app/.files
-RUN chmod 750 /app/.files
+RUN chmod 750 /app/.files/
 
 COPY --chown=15000 . .
 
