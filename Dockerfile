@@ -9,6 +9,11 @@ USER 15000
 
 COPY app.py app.py
 
+# Create a writable directory for the application
+RUN mkdir -p /app/.files
+RUN chown -R user:user /app/.files
+RUN chmod 750 /app/.files/
+
 COPY --chown=15000 . .
 
 RUN pip install --no-cache-dir -r requirements.txt
