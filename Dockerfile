@@ -1,20 +1,23 @@
 FROM python:3.12
 
-RUN useradd -m -u 10001 user
+# Create a non-root user and switch to it
+RUN useradd -m appuser
 
-USER 10001
+USER appuser
 
-ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-WORKDIR $HOME/app
+# Copy the current directory contents into the container at /usr/src/app
+COPY requirements.txt .
 
-COPY --chown=10001 . $HOME/app
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./requirements.txt ~/app/requirements.txt
+# Copy the rest of the application's code
+COPY --chown=appuser:appuser . .
 
-RUN pip install -r requirements.txt
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
-COPY . .
-
-CMD ["chainlit", "run", "app.py", "--port", "7860"]
+CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
