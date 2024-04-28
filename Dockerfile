@@ -3,7 +3,7 @@ FROM python:3.12
 # Create a non-root user and switch to it
 RUN useradd -m -u 10001 appuser
 
-USER appuser
+USER 10001
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
