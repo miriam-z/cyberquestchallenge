@@ -9,12 +9,13 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
+COPY --chown=user . $HOME/app
+
 # Create a writable directory for the application
 # RUN mkdir -p /app/.files
-# RUN chown -R user:user /app/.files
-# RUN chmod 750 /app/.files/
+RUN chown -R user:user /app/.files
 
-COPY --chown=user . $HOME/app
+RUN chmod 750 /app/.files/
 
 COPY ./requirements.txt ~/app/requirements.txt
 
