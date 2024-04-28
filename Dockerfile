@@ -12,8 +12,8 @@ ENV HOME=/home/user \
 WORKDIR /app
 
 # Create a writable directory for the application
-RUN mkdir -p /app/data
-RUN chown -R user:user /app/data
+# RUN mkdir -p /app/data
+RUN chown -R user:user /app/.files
 
 COPY --chown=15000 . .
 
@@ -25,5 +25,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Make port 8000 available to the world outside this container
 EXPOSE 7860
 
-CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/data"]
+# CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/data"]
+CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
 
