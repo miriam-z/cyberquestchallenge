@@ -9,14 +9,12 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-COPY --chown=user . $HOME/app
-
 # Create a writable directory for the application
-RUN mkdir -p /app/.files
+# RUN mkdir -p /app/.files
+# RUN chown -R user:user /app/.files
+# RUN chmod 750 /app/.files/
 
-RUN chown -R user:user /app/.files
-
-RUN chmod 750 /app/.files/
+COPY --chown=user . $HOME/app
 
 COPY ./requirements.txt ~/app/requirements.txt
 
@@ -28,4 +26,3 @@ COPY . .
 EXPOSE 7860
 
 CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "7860"]
-
