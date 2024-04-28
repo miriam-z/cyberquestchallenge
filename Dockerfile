@@ -1,22 +1,29 @@
 FROM python:3.12
 
-# Set the working directory in the container
-WORKDIR /app
-
 RUN useradd -m -u 15000 user
 
 USER 15000
 
-COPY app.py app.py
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
+
+WORKDIR $HOME/app
 
 # Create a writable directory for the application
-RUN mkdir -p /app/.files
-RUN chown -R user:user /app/.files
-RUN chmod 750 /app/.files/
+# RUN mkdir -p /app/.files
+# RUN chown -R user:user /app/.files
+# RUN chmod 750 /app/.files/
 
-COPY --chown=15000 . .
+COPY --chown=user . $HOME/app
 
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./requirements.txt ~/app/requirements.txt
 
-# do not change the arguments
-ENTRYPOINT ["chainlit", "run", "app.py", "--host=0.0.0.0", "--port=80", "--headless"]
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 7860
+
+CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "7860"]
+
