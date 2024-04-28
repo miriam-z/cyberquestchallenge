@@ -9,9 +9,9 @@ ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
 # Set the working directory in the container
-WORKDIR $HOME/app
+WORKDIR /app
 
-COPY --chown=user . .
+COPY --chown=15000 . .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
