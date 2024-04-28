@@ -3,7 +3,7 @@ FROM python:3.12
 # Create a non-root user and switch to it
 RUN useradd -m -u 15000 user
 
-USER 10001
+USER 15000
 
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
