@@ -1,23 +1,24 @@
 FROM python:3.12
 
 # Create a non-root user and switch to it
-RUN useradd -m -u 10001 appuser
+RUN useradd -m -u 10001 user
 
-USER 10001
+USER user
+
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
 # Set the working directory in the container
-WORKDIR /usr/src/app
+WORKDIR $HOME/app
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY requirements.txt .
+COPY --chown=user . .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application's code
-COPY --chown=appuser:appuser . .
+# RUN --mount=type=secret,id=HUGGINGFACE_API_TOKEN,mode=0444,required=true 
 
 # Make port 8000 available to the world outside this container
-EXPOSE 8000
+EXPOSE 7860
 
 CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
