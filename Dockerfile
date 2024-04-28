@@ -16,7 +16,7 @@ RUN mkdir -p $HOME/app/.files
 
 RUN chown -R user:user $HOME/app/.files
 
-RUN chmod 750 $HOME/app/.files/
+RUN chmod 777 $HOME/app/.files/
 
 
 COPY ./requirements.txt ~/app/requirements.txt
@@ -31,4 +31,4 @@ EXPOSE 7860
 CMD ["chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "7860"]
 
 # OSError: [Errno 30] Read-only file system: '/home/user/app/.files'
-
+# [Errno 30] Read-only file system: '/home/user/app/.files/f78018c1-8331-4ddc-a3e7-b3e56673306a'
