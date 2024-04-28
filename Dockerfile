@@ -12,7 +12,7 @@ ENV HOME=/home/user \
 WORKDIR /app
 
 # Create a writable directory for the application
-# RUN mkdir -p /app/data
+RUN mkdir -p /app/.files
 RUN chown -R user:user /app/.files
 
 COPY --chown=15000 . .
@@ -26,5 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 7860
 
 # CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/data"]
-CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
+# CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
+
+CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/.files"]
 
