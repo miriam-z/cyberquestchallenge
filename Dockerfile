@@ -1,6 +1,6 @@
 FROM python:3.12
 
-RUN useradd -m -u 1000 user
+RUN useradd -m -u 10001 user
 
 USER user
 
