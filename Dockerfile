@@ -1,7 +1,7 @@
 FROM python:3.12
 
 # Create a non-root user and switch to it
-RUN useradd -m appuser
+RUN useradd -m -u 10001 user
 
 USER appuser
 
