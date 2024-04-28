@@ -28,5 +28,5 @@ EXPOSE 7860
 # CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/data"]
 # CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
 
-CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860", "--data-dir", "/app/.files"]
+CMD ["chainlit", "run", "app.py", "-h", "-w", "--host", "0.0.0.0" ,"--port", "7860"]
 
