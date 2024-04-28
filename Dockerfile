@@ -12,7 +12,8 @@ WORKDIR $HOME/app
 COPY --chown=user . $HOME/app
 
 # Create a writable directory for the application
-# RUN mkdir -p /app/.files
+RUN mkdir -p /app/.files
+
 RUN chown -R user:user /app/.files
 
 RUN chmod 750 /app/.files/
