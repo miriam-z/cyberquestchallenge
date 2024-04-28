@@ -11,6 +11,10 @@ ENV HOME=/home/user \
 # Set the working directory in the container
 WORKDIR /app
 
+# Create a writable directory for the application
+RUN mkdir -p /app/data
+RUN chown -R user:user /app/data
+
 COPY --chown=15000 . .
 
 # Install any needed packages specified in requirements.txt
