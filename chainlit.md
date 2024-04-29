@@ -48,8 +48,3 @@ To get started with CyberTruck PDF QA, simply visit the application's URL and up
 ## Conclusion
 
 CyberTruck PDF QA is a powerful tool for quickly finding information within large PDF documents. By leveraging advanced natural language processing and machine learning techniques, the application provides accurate and informative answers to user questions. With its user-friendly interface and robust features, CyberTruck PDF QA is an essential tool for anyone working with PDF documents.
-
-Citations:
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/1270799/a2d72d36-c33a-4a41-b341-b8358355961f/Apple_10-K-Q4-2023-As-Filed.pdf
-[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/1270799/0d4524ca-5e04-4775-be83-053933a4e256/Apple_10-K-Q4-2023-As-Filed.pdf
-
