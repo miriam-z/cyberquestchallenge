@@ -132,30 +132,30 @@ async def start():
     cl.user_session.set("message_history", message_history)
 
     ### Resume Logic
-    cl.user_session.set("memory", ConversationBufferMemory(return_messages=True))
-    setup_runnable()
+    # cl.user_session.set("memory", ConversationBufferMemory(return_messages=True))
+    # setup_runnable()
     ### Resume Logic
 
 @cl.on_message
 async def main(message: cl.Message):
     
     ### RESUME LOGIC
-    memory = cl.user_session.get("memory")  # type: ConversationBufferMemory
+    # memory = cl.user_session.get("memory")  # type: ConversationBufferMemory
 
-    runnable = cl.user_session.get("runnable")  # type: Runnable
+    # runnable = cl.user_session.get("runnable")  # type: Runnable
 
-    res = cl.Message(content="")
+    # res = cl.Message(content="")
 
-    async for chunk in runnable.astream(
-        {"question": message.content},
-        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
-    ):
-        await res.stream_token(chunk)
-
-    await res.send()
-
-    memory.chat_memory.add_user_message(message.content)
-    memory.chat_memory.add_ai_message(res.content)
+    # async for chunk in runnable.astream(
+    #     {"question": message.content},
+    #     config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
+    # ):
+    #     await res.stream_token(chunk)
+    
+    # await res.send()
+    
+    # memory.chat_memory.add_user_message(message.content)
+    # memory.chat_memory.add_ai_message(res.content)
     ### RESUME LOGIC   
     
     chain = cl.user_session.get("chain")  # type: ConversationalRetrievalChain
@@ -212,16 +212,16 @@ def setup_runnable():
 #     return cl.User(identifier="test")
 
 
-@cl.on_chat_resume
-async def on_chat_resume(thread: ThreadDict):
-    memory = ConversationBufferMemory(return_messages=True)
-    root_messages = [m for m in thread["steps"] if m["parentId"] == None]
-    for message in root_messages:
-        if message["type"] == "user_message":
-            memory.chat_memory.add_user_message(message["output"])
-        else:
-            memory.chat_memory.add_ai_message(message["output"])
+# @cl.on_chat_resume
+# async def on_chat_resume(thread: ThreadDict):
+#     memory = ConversationBufferMemory(return_messages=True)
+#     root_messages = [m for m in thread["steps"] if m["parentId"] == None]
+#     for message in root_messages:
+#         if message["type"] == "user_message":
+#             memory.chat_memory.add_user_message(message["output"])
+#         else:
+#             memory.chat_memory.add_ai_message(message["output"])
 
-    cl.user_session.set("memory", memory)
+#     cl.user_session.set("memory", memory)
 
-    setup_runnable()    
+#     setup_runnable()    

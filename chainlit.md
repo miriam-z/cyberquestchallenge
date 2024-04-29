@@ -30,6 +30,7 @@ CyberTruck PDF QA is a full-stack web application that allows users to upload a 
    - Total net sales were $383.3 billion and net income was $97.0 billion during 2023[1].
    - The company announced several new product and service offerings in fiscal year 2023, including new iPad and iPad Pro models, next-generation Apple TV 4K, and the MLS Season Pass streaming service[1].
 
+
 2. **What were Apple's segment net sales for 2023?**
 
    Apple's segment net sales for 2023 were:
