@@ -46,13 +46,13 @@ auto_tag_thread = true
 
 [UI]
 # Name of the app and chatbot.
-name = "Chatbot"
+name = "CyberQuest Challenge"
 
 # Show the readme while the thread is empty.
 show_readme_as_default = true
 
 # Description of the app and chatbot. This is used for HTML tags.
-# description = ""
+description = "CyberQuest Challenge"
 
 # Large size content are by default collapsed for a cleaner ui
 default_collapse_content = true
@@ -68,7 +68,7 @@ hide_cot = false
 
 # Specify a CSS file that can be used to customize the user interface.
 # The CSS file can be served from the public directory or via an external link.
-# custom_css = "/public/test.css"
+custom_css = "/public/test.css"
 
 # Specify a Javascript file that can be used to customize the user interface.
 # The Javascript file can be served from the public directory.
