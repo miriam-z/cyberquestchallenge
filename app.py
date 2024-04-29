@@ -26,17 +26,27 @@ welcome_message = """Welcome to the Chainlit PDF QA demo! To get started:
 def process_file(file: AskFileResponse):
     Loader = PyPDFLoader
 
-    loader = Loader(file.path)
-    documents = loader.load()
-    docs = text_splitter.split_documents(documents)
-    for i, doc in enumerate(docs):
-        doc.metadata["source"] = f"source_{i}"
-    return docs
+    if file is None or not file.path:
+        return None
+    
+    try:
+        loader = Loader(file.path)
+        documents = loader.load()
+        docs = text_splitter.split_documents(documents)
+        for i, doc in enumerate(docs):
+            doc.metadata["source"] = f"source_{i}"
+        return docs
+    except Exception as e:
+        print(f"Error processing file: {e}")
+        return None
 
 
 def get_docsearch(file: AskFileResponse):
     docs = process_file(file)
 
+    if docs is None:
+        return None
+    
     # save data in the user session
     cl.user_session.set("docs", docs)
 
@@ -84,13 +94,7 @@ async def start():
             model='claude-3-opus-20240229',
             temperature=0, 
             streaming=True,
-            # system="You are an expert research assistant. Here is a docume    nt you will answer questions about:  \nFirst, find the quotes from the document that are most relevant to answering the question, and then print them in numbered order. Quotes should be relatively short.  \n  \nIf there are no relevant quotes, write \"No relevant quotes\" instead.  \n  \nThen, answer the question, starting with \"Answer:\". Do not include or reference quoted content verbatim in the answer. Don't say \"According to Quote [1]\" when answering. Instead make references to quotes relevant to each section of the answer solely by adding their bracketed numbers at the end of relevant sentences.  \n  \nThus, the format of your overall response should look like what's shown between the <example></example> tags. Make sure to follow the formatting and spacing exactly.  \n<example>  \nQuotes:  \n[1] \"Company X reported revenue of $12 million in 2021.\"  \n[2] \"Almost 90% of revenue came from widget sales, with gadget sales making up the remaining 10%.\"  \n  \nAnswer:  \nCompany X earned $12 million. [1] Almost 90% of it was from widget sales. [2]  \n</example>  \n  \nIf the question cannot be answered by the document, say so.",             
-            
-            # system="You are an expert research assistant. Here is a document you will answer questions about:\n<doc>\n" + file + "\n</doc>\n\nFirst, find the quotes from the document that are most relevant to answering the question, and then print them in numbered order. Quotes should be relatively short.\n\nIf there are no relevant quotes, write \"No relevant quotes\" instead.\n\nThen, answer the question, starting with \"Answer:\". Do not include or reference quoted content verbatim in the answer. Don't say \"According to Quote [1]\" when answering. Instead make references to quotes relevant to each section of the answer solely by adding their bracketed numbers at the end of relevant sentences.\n\nThus, the format of your overall response should look like what's shown between the <example></example> tags. Make sure to follow the formatting and spacing exactly.",
-            
             system=f"You are an expert research assistant. Here is a document you will answer questions about:\n<doc>\n{file.name}\n</doc>\n\nFirst, find the quotes from the document that are most relevant to answering the question, and then print them in numbered order. Quotes should be relatively short.\n\nIf there are no relevant quotes, write \"No relevant quotes\" instead.\n\nThen, answer the question, starting with \"Answer:\". Do not include or reference quoted content verbatim in the answer. Don't say \"According to Quote [1]\" when answering. Instead make references to quotes relevant to each section of the answer solely by adding their bracketed numbers at the end of relevant sentences.\n\nThus, the format of your overall response should look like what's shown between the <example></example> tags. Make sure to follow the formatting and spacing exactly.",
-
-            
             messages=[
                 {
                     "role": "user",
