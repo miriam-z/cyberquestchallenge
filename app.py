@@ -97,7 +97,7 @@ async def start():
                     "content": [
                         {
                             "type": "text",
-                            "text": msg
+                            "text": msg.content
                         }
                     ]
                 }
@@ -114,6 +114,9 @@ async def start():
     await msg.update()
 
     cl.user_session.set("chain", chain)
+    cl.user_session.set("message_history", message_history)
+
+
 
 
 @cl.on_message
