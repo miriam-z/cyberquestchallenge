@@ -6,3 +6,4 @@ chainlit
 chromadb
 pypdf
 tiktoken
+openai
