@@ -70,11 +70,6 @@ def get_docsearch(file: AskFileResponse):
 @cl.on_chat_start
 async def start():
     
-    # Resume Logic
-    cl.user_session.set("memory", ConversationBufferMemory(return_messages=True))
-    setup_runnable()
-    # Resume Logic
-    
     await cl.Avatar(
         name="CyberQuest Challenge",
         url="https://avatars.githubusercontent.com/u/128686189?s=400&u=a1d1553023f8ea0921fba0debbe92a8c5f840dd9&v=4",
@@ -136,28 +131,13 @@ async def start():
     cl.user_session.set("chain", chain)
     cl.user_session.set("message_history", message_history)
 
+    # Resume Logic
+    cl.user_session.set("memory", ConversationBufferMemory(return_messages=True))
+    setup_runnable()
+    # Resume Logic
 
 @cl.on_message
 async def main(message: cl.Message):
-    
-    # RESUME LOGIC
-    memory = cl.user_session.get("memory")  # type: ConversationBufferMemory
-
-    runnable = cl.user_session.get("runnable")  # type: Runnable
-
-    res = cl.Message(content="")
-
-    async for chunk in runnable.astream(
-        {"question": message.content},
-        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
-    ):
-        await res.stream_token(chunk)
-
-    await res.send()
-
-    memory.chat_memory.add_user_message(message.content)
-    memory.chat_memory.add_ai_message(res.content)
-    # RESUME LOGIC
     
     chain = cl.user_session.get("chain")  # type: ConversationalRetrievalChain
     cb = cl.AsyncLangchainCallbackHandler()
@@ -182,7 +162,25 @@ async def main(message: cl.Message):
             answer += "\nNo sources found"
 
     await cl.Message(content=answer, elements=text_elements).send()
-    
+
+    # RESUME LOGIC
+    memory = cl.user_session.get("memory")  # type: ConversationBufferMemory
+
+    runnable = cl.user_session.get("runnable")  # type: Runnable
+
+    res = cl.Message(content="")
+
+    async for chunk in runnable.astream(
+        {"question": message.content},
+        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
+    ):
+        await res.stream_token(chunk)
+
+    await res.send()
+
+    memory.chat_memory.add_user_message(message.content)
+    memory.chat_memory.add_ai_message(res.content)
+    # RESUME LOGIC    
     
 # Add Resume-Chat Functionality    
 def setup_runnable():
